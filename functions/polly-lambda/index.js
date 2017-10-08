@@ -4,10 +4,11 @@ const S3 = new AWS.S3();
 
 module.exports = (event, context, callback) => {
   let params = JSON.parse(event.body);
+  const voiceId = params.gender && params.gender === 'male' ? 'Karl' : 'Kimberly';
   const pollyParams = {
     Text: params.text,
     OutputFormat: 'mp3',
-    VoiceId: params.voiceId || 'Kimberly'
+    VoiceId: voiceId
   };
 
   Polly.synthesizeSpeech(pollyParams, (err, data) => {
