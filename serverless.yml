@@ -59,6 +59,11 @@ functions:
     timeout: 60
     environment:
       BUCKET_NAME: ${self:custom.s3Mp3BucketName}
+    events:
+      - http:
+          path: mp3
+          method: post
+          cors: true
 
 resources:
   Resources:

@@ -3,14 +3,14 @@ const Polly = new AWS.Polly();
 const S3 = new AWS.S3();
 
 module.exports = (event, context, callback) => {
-  console.log(event);
-  const params = {
-    Text: event.text,
+  let params = JSON.parse(event.body);
+  const pollyParams = {
+    Text: params.text,
     OutputFormat: 'mp3',
     VoiceId: 'Kimberly'
   };
 
-  Polly.synthesizeSpeech(params, (err, data) => {
+  Polly.synthesizeSpeech(pollyParams, (err, data) => {
     if (err) {
       console.log(err.code);
       callback(err);
