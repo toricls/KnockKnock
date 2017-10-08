@@ -7,7 +7,7 @@ module.exports = (event, context, callback) => {
   const pollyParams = {
     Text: params.text,
     OutputFormat: 'mp3',
-    VoiceId: 'Kimberly'
+    VoiceId: params.voiceId || 'Kimberly'
   };
 
   Polly.synthesizeSpeech(pollyParams, (err, data) => {
