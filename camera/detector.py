@@ -15,6 +15,7 @@ with picamera.PiCamera() as camera:
     camera.resolution = (320, 240)
 
     while True:
+        stream = io.BytesIO()
         camera.capture(stream, format='jpeg')
 
         # Convert the picture into a numpy array
@@ -42,11 +43,14 @@ with picamera.PiCamera() as camera:
         # Save the debug image
         cv2.imwrite('./results/debug.jpg', image)
         if len(faces) > 0:
+
                 # Get a S3 upload url
                 data = {
-                    "name": datetime.datetime.now().isoformat(),
+                    "name": "camera/%s.jpg" % datetime.datetime.now().isoformat(),
                     "type": "image/jpeg"
                 }
-                print data
                 resp = requests.post(endpoint, json=data)
-                print(resp.json())
+                print(resp.json()['uploadURL'])
+
+                resp = requests.put(resp.json()['uploadURL'], data=open('./results/face.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
+                print resp
