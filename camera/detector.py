@@ -1,10 +1,14 @@
 import io
 import picamera
+import datetime
+import requests
 import cv2
 import numpy
 
 #Create a memory stream so photos doesn't need to be saved in a file
 stream = io.BytesIO()
+
+endpoint = "https://yiwmrr53ce.execute-api.us-east-1.amazonaws.com/stage/requestUploadURL"
 
 # Get the picture (low resolution, so it should be quite fast)
 with picamera.PiCamera() as camera:
@@ -29,10 +33,20 @@ with picamera.PiCamera() as camera:
         faces = face_cascade.detectMultiScale(gray, 1.1, 5)
 
         print "Found "+str(len(faces))+" face(s)"
+        cv2.imwrite('./results/face.jpg', image)
 
         # Draw a rectangle around every found face
         for (x,y,w,h) in faces:
             cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
 
-        # Save the result image
-        cv2.imwrite('./results/detector.jpg', image)
+        # Save the debug image
+        cv2.imwrite('./results/debug.jpg', image)
+        if len(faces) > 0:
+                # Get a S3 upload url
+                data = {
+                    "name": datetime.datetime.now().isoformat(),
+                    "type": "image/jpeg"
+                }
+                print data
+                resp = requests.post(endpoint, json=data)
+                print(resp.json())
