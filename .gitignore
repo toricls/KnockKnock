@@ -39,6 +39,7 @@ config/runtime.yaml
 .env.development
 .env
 
+.serverless/
 serverless.env.yml
 
 .nyc_output/
