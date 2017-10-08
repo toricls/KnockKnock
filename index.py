@@ -2,7 +2,7 @@ import boto3
 import requests
 client = boto3.client('rekognition')
 
-rpi_endpoint = "http://ba753c15.ngrok.io"
+rpi_endpoint = "http://650abefc.ngrok.io"
 
 def detect(event, context):
     print event
