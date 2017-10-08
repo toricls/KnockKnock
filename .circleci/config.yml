@@ -36,4 +36,4 @@ jobs:
       # run tests!
       - run: echo "we will call 'node run test' in the future"
 
-      - deploy: npm run deploy
+      - run: npm run deploy
