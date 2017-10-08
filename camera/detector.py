@@ -34,4 +34,4 @@ while True:
         cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
 
     # Save the result image
-    cv2.imwrite('./results/result.jpg', image)
+    cv2.imwrite('./results/detector.jpg', image)
