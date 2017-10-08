@@ -52,6 +52,7 @@ def detect(event, context):
     print resp.json()
 
     mp3_url = resp.json()['mp3URL']
+    resp = requests.post("%s/sound" % rpi_endpoint, json={"mp3URL": mp3_url})
 
     # start waving
     resp = requests.get("%s/wave" % rpi_endpoint)
