@@ -5,6 +5,7 @@ const queryString = require('query-string');
 
 // Expecting `name` and `type` will be provided as request body paramters of API call's
 module.exports = (event, context, callback) => {
+  console.log(event)
   let params = queryString.parse(event.body);
   let s3Params = {
     Bucket: process.env.BUCKET_NAME,
