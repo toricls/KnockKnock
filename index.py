@@ -1,11 +1,14 @@
 import boto3
 import requests
+import os
 client = boto3.client('rekognition')
 
-rpi_endpoint = "http://650abefc.ngrok.io"
+rpi_endpoint = os.environ.get('RPI_ENDPOINT')
+slack_endpoint = os.environ.get('SLACK_ENDPOINT')
 
 def detect(event, context):
     print event
+    image_url = "https://s3.amazonaws.com/%s/%s" % (event['Records'][0]['s3']['bucket']['name'], event['Records'][0]['s3']['object']['key'])
     image = {
             'S3Object': {
                 'Bucket': event['Records'][0]['s3']['bucket']['name'],
@@ -21,6 +24,12 @@ def detect(event, context):
         )
     except:
         print "No face found"
+        slack_msg = "Something happened at your door: %s" % image_url
+        print slack_msg
+        data = {
+            "text": slack_msg
+        }
+        requests.post(slack_endpoint, json=data)
         return None
     print response
     try:
@@ -30,6 +39,12 @@ def detect(event, context):
         return None
 
     # we found a face, woohoo!
+    slack_msg = "%s is at your door: %s" % (name, image_url)
+    data = {
+        "text": slack_msg
+    }
+    print slack_msg
+    requests.post(slack_endpoint, json=data)
 
     # let's generate an mp3
     url = "https://yiwmrr53ce.execute-api.us-east-1.amazonaws.com/stage/mp3"

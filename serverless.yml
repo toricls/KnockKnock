@@ -72,6 +72,9 @@ functions:
     runtime: python2.7
     memorySize: 128
     timeout: 60
+    environment:
+      RPI_URL: "http://dd4fa9d7.ngrok.io"
+      SLACK_ENDPOINT: "https://hooks.slack.com/services/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"
     # environment:
     #   BUCKET_NAME: ${self:custom.s3Mp3BucketName}
     # events:
