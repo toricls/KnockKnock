@@ -43,8 +43,12 @@ app.get('/wave', (req, res) => {
 
 
 app.get('/light', (req, res) => {
-  
-  res.send({ result: 'Success!' });
+  PythonShell.run('blink.py', options, function (err, results) {
+    if (err) throw err;
+    // results is an array consisting of messages collected during execution 
+
+    res.send({ result: 'Success!' });
+  });
 });
 
 app.use(logger);
