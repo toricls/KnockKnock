@@ -1,0 +1,37 @@
+{
+  "name": "knock-knock",
+  "version": "1.0.0",
+  "description": "App for people with limited hearing and vision abilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xpolb01/KnockKnock.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xpolb01/KnockKnock/issues"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-shallow-deep-equal": "^1.4.6",
+    "chalk": "^2.0.1",
+    "dotenv": "^4.0.0",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-watch": "^2.1.14",
+    "mocha": "^3.2.0",
+    "nock": "^9.0.15",
+    "nyc": "^11.2.1",
+    "supertest": "^3.0.0",
+    "swagger": "^0.7.5"
+  },
+  "homepage": "https://github.com/xpolb01/KnockKnock#readme",
+  "dependencies": {
+    "serverless": "^1.23.0"
+  }
+}
