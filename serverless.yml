@@ -42,6 +42,12 @@ functions:
           method: post
           cors: true
 
+  #do-something-lambda:
+  #  events:
+  #    - s3
+  #      bucket: knock-knock-image-store-${self:provider.stage}
+  #      event: s3:ObjectCreated:*
+
 resources:
   Resources:
     UploadBucket:
