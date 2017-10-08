@@ -1,0 +1,16 @@
+{
+  "name": "paspberry-server",
+  "version": "1.0.0",
+  "description": "App for people with limited hearing and vision abilities",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "sls deploy --stage stage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.1",
+    "volleyball": "^1.4.1"
+  }
+}
