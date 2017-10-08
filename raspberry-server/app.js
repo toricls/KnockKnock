@@ -32,9 +32,9 @@ app.post('/sound', (req, res, next) => {
   });
 });
 
-app.get('/wave', (req, res) => {
+app.get('/wave', (req, res, next) => {
   PythonShell.run('wave.py', options, function (err, results) {
-    if (err) throw err;
+    if (err) return next(err);
     // results is an array consisting of messages collected during execution 
 
     res.send({ result: 'Success!' });
@@ -42,9 +42,9 @@ app.get('/wave', (req, res) => {
 });
 
 
-app.get('/light', (req, res) => {
-  PythonShell.run('blink.py', options, function (err, results) {
-    if (err) throw err;
+app.get('/camera', (req, res, next) => {
+  PythonShell.run('take_picture.py', options, function (err, results) {
+    if (err) return next(err);
     // results is an array consisting of messages collected during execution 
 
     res.send({ result: 'Success!' });
