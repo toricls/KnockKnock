@@ -11,9 +11,14 @@ provider:
     - Effect: "Allow"
       Action:
         - "s3:*"
-      Resource: "arn:aws:s3:::${self:custom.s3BucketName}/*"
+      Resource: "arn:aws:s3:::${self:custom.s3ImageBucketName}/*"
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: "arn:aws:s3:::${self:custom.s3Mp3BucketName}/*"
 custom:
-  s3BucketName: knock-knock-image-store-${self:provider.stage}
+  s3ImageBucketName: knock-knock-image-store-${self:provider.stage}
+  s3Mp3BucketName: knock-knock-mp3-store-${self:provider.stage}
   secrets: ${file(serverless.env.yml):${self:provider.stage}}
   defaultStage: dev
 functions:
@@ -39,26 +44,44 @@ functions:
     memorySize: 128
     timeout: 10
     environment:
-      ENV: ${self:custom.secrets.ENV}
-      BUCKET_NAME: ${self:custom.s3BucketName}
+      BUCKET_NAME: ${self:custom.s3ImageBucketName}
     events:
       - http:
           path: requestUploadURL
           method: post
           cors: true
-
-  #do-something-lambda:
-  #  events:
-  #    - s3
-  #      bucket: knock-knock-image-store-${self:provider.stage}
-  #      event: s3:ObjectCreated:*
+  polly-lambda:
+    handler: index.polly
+    name: polly-lambda-${self:provider.stage}
+    description: Convert text to mp3 and upload it to S3
+    runtime: nodejs6.10
+    memorySize: 128
+    timeout: 60
+    environment:
+      BUCKET_NAME: ${self:custom.s3Mp3BucketName}
 
 resources:
   Resources:
     UploadBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:custom.s3BucketName}
+        BucketName: ${self:custom.s3ImageBucketName}
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+          - AllowedMethods:
+            - GET
+            - PUT
+            - POST
+            - HEAD
+            AllowedOrigins:
+            - "*"
+            AllowedHeaders:
+            - "*"
+    Mp3UploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3Mp3BucketName}
         AccessControl: PublicRead
         CorsConfiguration:
           CorsRules:
