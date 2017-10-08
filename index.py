@@ -40,6 +40,3 @@ def detect(event, context):
 
     # start waving
     resp = requests.get("%s/wave" % rpi_endpoint)
-
-    # blink the led
-    resp = requests.get("%s/blink" % rpi_endpoint)
