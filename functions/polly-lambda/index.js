@@ -24,12 +24,19 @@ module.exports = (event, context, callback) => {
           ACL: 'public-read',
           Body: data.AudioStream
         };
-        S3.putObject(s3Params, (errS3) => {
+        S3.upload(s3Params, (errS3, dataS3) => {
           if (errS3) {
             console.log(errS3);
             callback(errS3);
           } else {
-            callback(null, 'done');
+            const mp3URL = dataS3.Location;
+            callback(null, {
+              statusCode: 201,
+              headers: {
+                'Access-Control-Allow-Origin': '*'
+              },
+              body: JSON.stringify({ mp3URL }),
+            });
           }
         });
       }
