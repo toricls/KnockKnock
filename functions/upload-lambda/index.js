@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const queryString = require('query-string');
 
-// Expecting `name` and `type` will be provided as query paramters of API call's
+// Expecting `name` and `type` will be provided as request body paramters of API call's
 module.exports = (event, context, callback) => {
   let params = queryString.parse(event.body);
   let s3Params = {
