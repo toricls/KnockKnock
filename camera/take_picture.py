@@ -14,25 +14,24 @@ endpoint = "https://yiwmrr53ce.execute-api.us-east-1.amazonaws.com/stage/request
 with picamera.PiCamera() as camera:
     camera.resolution = (320, 240)
 
-    while True:
-        stream = io.BytesIO()
-        camera.capture(stream, format='jpeg')
+    stream = io.BytesIO()
+    camera.capture(stream, format='jpeg')
 
-        # Convert the picture into a numpy array
-        buff = numpy.fromstring(stream.getvalue(), dtype=numpy.uint8)
+    # Convert the picture into a numpy array
+    buff = numpy.fromstring(stream.getvalue(), dtype=numpy.uint8)
 
-        # Now creates an OpenCV image
-        image = cv2.imdecode(buff, 1)
+    # Now creates an OpenCV image
+    image = cv2.imdecode(buff, 1)
 
-        cv2.imwrite('./results/face.jpg', image)
+    cv2.imwrite('./results/face.jpg', image)
 
-        # Get a S3 upload url
-        data = {
-            "name": "camera/%s.jpg" % datetime.datetime.now().isoformat(),
-            "type": "image/jpeg"
-        }
-        resp = requests.post(endpoint, json=data)
-        print(resp.json()['uploadURL'])
+    # Get a S3 upload url
+    data = {
+        "name": "camera/%s.jpg" % datetime.datetime.now().isoformat(),
+        "type": "image/jpeg"
+    }
+    resp = requests.post(endpoint, json=data)
+    print(resp.json()['uploadURL'])
 
-        resp = requests.put(resp.json()['uploadURL'], data=open('./results/face.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
-        print resp
+    resp = requests.put(resp.json()['uploadURL'], data=open('./results/face.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
+    print resp
