@@ -3,6 +3,7 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const queryString = require('query-string');
 
+// Expecting `name` and `type` will be provided as query paramters of API call's
 exports.handler = (event, context, callback) => {
   let params = queryString.parse(event.body);
   let s3Params = {
@@ -11,7 +12,13 @@ exports.handler = (event, context, callback) => {
     ContentType: params.type,
     ACL: 'public-read',
   };
+  let uploadURL = s3.getSignedUrl('putObject', s3Params);
 
-
-  // return context.fail('Login Failed.');
+  callback(null, {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({ uploadURL: uploadURL }),
+  })
 };
