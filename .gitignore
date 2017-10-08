@@ -39,6 +39,8 @@ config/runtime.yaml
 .env.development
 .env
 
+serverless.env.yml
+
 .nyc_output/
 .vscode
 .npmignore
