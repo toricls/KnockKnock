@@ -35,7 +35,7 @@ functions:
     timeout: 10
     environment:
       ENV: ${self:custom.secrets.ENV}
-      BUCKET_NAME: 
+      BUCKET_NAME: ${self:custom.s3BucketName}
     events:
       - http:
           path: requestUploadURL
@@ -47,7 +47,7 @@ resources:
     UploadBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: knock-knock-image-store-${self:provider.stage}
+        BucketName: ${self:custom.s3BucketName}
         AccessControl: PublicRead
         CorsConfiguration:
           CorsRules:
