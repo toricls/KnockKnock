@@ -27,7 +27,7 @@ functions:
     # environment:
     #   ENV: ${self:custom.secrets.ENV}
   upload-lambda:
-    handler: index.handler
+    handler: index.upload
     name: upload-lambda-${self:provider.stage}
     description: Uploading images to an S3 bucket
     runtime: nodejs6.10
