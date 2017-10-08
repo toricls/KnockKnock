@@ -45,3 +45,5 @@ serverless.env.yml
 .nyc_output/
 .vscode
 .npmignore
+
+.pyc

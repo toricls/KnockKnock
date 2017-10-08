@@ -66,7 +66,7 @@ functions:
           cors: true
 
   detect-lambda:
-    handler: index.handler
+    handler: index.detect
     name: detect-lambda-${self:provider.stage}
     description: Detect faces in uploaded S3 files, and calls endpoints
     runtime: python2.7

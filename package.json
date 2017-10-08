@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/xpolb01/KnockKnock#readme",
   "dependencies": {
-    "serverless": "^1.23.0"
+    "serverless": "^1.23.0",
+    "serverless-python-requirements": "^3.0.4"
   }
 }
