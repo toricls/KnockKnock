@@ -42,7 +42,7 @@ functions:
     description: Uploading images to an S3 bucket
     runtime: nodejs6.10
     memorySize: 128
-    timeout: 10
+    timeout: 30
     environment:
       BUCKET_NAME: ${self:custom.s3ImageBucketName}
     events:
