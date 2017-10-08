@@ -42,8 +42,8 @@ app.get('/wave', (req, res) => {
 });
 
 
-app.get('/light', (req, res) => {
-  PythonShell.run('blink.py', options, function (err, results) {
+app.get('/camera', (req, res) => {
+  PythonShell.run('take_picture.py', options, function (err, results) {
     if (err) throw err;
     // results is an array consisting of messages collected during execution 
 
