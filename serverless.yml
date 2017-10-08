@@ -73,7 +73,7 @@ functions:
     memorySize: 128
     timeout: 60
     environment:
-      RPI_URL: http://4ac8afe2.ngrok.io
+      RPI_URL: http://5250784c.ngrok.io
       SLACK_ENDPOINT: https://hooks.slack.com/services/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
     # environment:
     #   BUCKET_NAME: ${self:custom.s3Mp3BucketName}
