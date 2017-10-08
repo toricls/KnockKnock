@@ -1,0 +1,53 @@
+service: upload-lambda
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: ${opt:stage, self:custom.defaultStage} # default stage is dev, otherwise use specified stage
+  profile: ${self:custom.secrets.AWS_PROFILE}   # get aws profile from secrets file
+  role: ${self:custom.secrets.ROLE_ARN}         # get role from secrets file
+  deploymentBucket:
+    name: serverlessconf-${self:provider.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: "arn:aws:s3:::${self:custom.s3BucketName}/*"
+custom:
+  s3BucketName: knock-knock-image-store-${self:provider.stage}
+  secrets: ${file(serverless.env.yml):${self:provider.stage}}
+  defaultStage: dev
+functions:
+  upload-lambda:
+    handler: index.handler
+    name: upload-lambda-${self:provider.stage}
+    description: Uploading images to an S3 bucket
+    runtime: nodejs6.10
+    memorySize: 128
+    timeout: 10
+    environment:
+      ENV: ${self:custom.secrets.ENV}
+      BUCKET_NAME: 
+    events:
+      - http:
+          path: requestUploadURL
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    UploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: knock-knock-image-store-${self:provider.stage}
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+          - AllowedMethods:
+            - GET
+            - PUT
+            - POST
+            - HEAD
+            AllowedOrigins:
+            - "*"
+            AllowedHeaders:
+            - "*"
