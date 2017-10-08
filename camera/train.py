@@ -4,8 +4,12 @@ import datetime
 import requests
 import cv2
 import numpy
+import sys
 
-#Create a memory stream so photos doesn't need to be saved in a file
+# get the username as input
+username = sys.argv[1]
+
+# Create a memory stream so photos doesn't need to be saved in a file
 stream = io.BytesIO()
 
 endpoint = "https://yiwmrr53ce.execute-api.us-east-1.amazonaws.com/stage/requestUploadURL"
@@ -34,23 +38,16 @@ with picamera.PiCamera() as camera:
         faces = face_cascade.detectMultiScale(gray, 1.1, 5)
 
         print "Found "+str(len(faces))+" face(s)"
-        cv2.imwrite('./results/face.jpg', image)
+        cv2.imwrite('./results/train.jpg', image)
 
-        # Draw a rectangle around every found face
-        for (x,y,w,h) in faces:
-            cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
-
-        # Save the debug image
-        cv2.imwrite('./results/debug.jpg', image)
         if len(faces) > 0:
+            # Get a S3 upload url
+            data = {
+                "name": "training-data/%s/%s.jpg" % (username, datetime.datetime.now().isoformat().replace(':','')),
+                "type": "image/jpeg"
+            }
+            resp = requests.post(endpoint, json=data)
+            print(resp.json()['uploadURL'])
 
-                # Get a S3 upload url
-                data = {
-                    "name": "camera/%s.jpg" % datetime.datetime.now().isoformat(),
-                    "type": "image/jpeg"
-                }
-                resp = requests.post(endpoint, json=data)
-                print(resp.json()['uploadURL'])
-
-                resp = requests.put(resp.json()['uploadURL'], data=open('./results/face.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
-                print resp
+            resp = requests.put(resp.json()['uploadURL'], data=open('./results/train.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
+            print resp

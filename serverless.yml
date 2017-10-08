@@ -65,6 +65,21 @@ functions:
           method: post
           cors: true
 
+  detect-lambda:
+    handler: index.handler
+    name: detect-lambda-${self:provider.stage}
+    description: Detect faces in uploaded S3 files, and calls endpoints
+    runtime: python2.7
+    memorySize: 128
+    timeout: 60
+    # environment:
+    #   BUCKET_NAME: ${self:custom.s3Mp3BucketName}
+    # events:
+    #   - http:
+    #       path: mp3
+    #       method: post
+    #       cors: true
+
 resources:
   Resources:
     UploadBucket:
