@@ -17,7 +17,7 @@ const options = {
   mode: 'text',
   pythonOptions: ['-u'],
   scriptPath: '../camera',
-  pythonPath: '../camera',
+  // pythonPath: '../camera',
   // args: ['value1', 'value2', 'value3']
 };
 
