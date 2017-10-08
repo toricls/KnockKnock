@@ -3,7 +3,7 @@ import requests
 import os
 client = boto3.client('rekognition')
 
-rpi_endpoint = os.environ.get('RPI_ENDPOINT')
+rpi_endpoint = os.environ.get('RPI_URL')
 slack_endpoint = os.environ.get('SLACK_ENDPOINT')
 
 def detect(event, context):
