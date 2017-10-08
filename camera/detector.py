@@ -9,29 +9,30 @@ stream = io.BytesIO()
 # Get the picture (low resolution, so it should be quite fast)
 with picamera.PiCamera() as camera:
     camera.resolution = (320, 240)
-    camera.capture(stream, format='jpeg')
 
-while True:
-    # Convert the picture into a numpy array
-    buff = numpy.fromstring(stream.getvalue(), dtype=numpy.uint8)
+    while True:
+        camera.capture(stream, format='jpeg')
 
-    # Now creates an OpenCV image
-    image = cv2.imdecode(buff, 1)
+        # Convert the picture into a numpy array
+        buff = numpy.fromstring(stream.getvalue(), dtype=numpy.uint8)
 
-    # Get the cascade file (with the generic faces)
-    face_cascade = cv2.CascadeClassifier('/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml')
+        # Now creates an OpenCV image
+        image = cv2.imdecode(buff, 1)
 
-    # Convert to grayscale
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+        # Get the cascade file (with the generic faces)
+        face_cascade = cv2.CascadeClassifier('/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml')
 
-    # Look for faces in the image using the loaded cascade file
-    faces = face_cascade.detectMultiScale(gray, 1.1, 5)
+        # Convert to grayscale
+        gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
-    print "Found "+str(len(faces))+" face(s)"
+        # Look for faces in the image using the loaded cascade file
+        faces = face_cascade.detectMultiScale(gray, 1.1, 5)
 
-    # Draw a rectangle around every found face
-    for (x,y,w,h) in faces:
-        cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
+        print "Found "+str(len(faces))+" face(s)"
 
-    # Save the result image
-    cv2.imwrite('./results/detector.jpg', image)
+        # Draw a rectangle around every found face
+        for (x,y,w,h) in faces:
+            cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
+
+        # Save the result image
+        cv2.imwrite('./results/detector.jpg', image)
