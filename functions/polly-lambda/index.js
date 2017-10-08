@@ -29,13 +29,14 @@ module.exports = (event, context, callback) => {
             console.log(errS3);
             callback(errS3);
           } else {
-            const mp3URL = dataS3.Location;
+            const mp3SSLURL = dataS3.Location;
+            const mp3URL = mp3SSLURL.replace('https://', 'http://');
             callback(null, {
               statusCode: 201,
               headers: {
                 'Access-Control-Allow-Origin': '*'
               },
-              body: JSON.stringify({ mp3URL }),
+              body: JSON.stringify({ mp3SSLURL, mp3URL }),
             });
           }
         });
