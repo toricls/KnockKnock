@@ -4,7 +4,7 @@ const s3 = new AWS.S3();
 const queryString = require('query-string');
 
 // Expecting `name` and `type` will be provided as query paramters of API call's
-exports.handler = (event, context, callback) => {
+module.exports = (event, context, callback) => {
   let params = queryString.parse(event.body);
   let s3Params = {
     Bucket: process.env.BUCKET_NAME,
