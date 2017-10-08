@@ -27,7 +27,7 @@ with picamera.PiCamera() as camera:
 
     # Get a S3 upload url
     data = {
-        "name": "camera/%s.jpg" % datetime.datetime.now().isoformat(),
+        "name": "camera/%s.jpg" % datetime.datetime.now().isoformat().replace(':',''),
         "type": "image/jpeg"
     }
     resp = requests.post(endpoint, json=data)
