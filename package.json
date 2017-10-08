@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/xpolb01/KnockKnock#readme",
   "dependencies": {
-    "query-string": "^5.0.0",
     "serverless": "^1.23.0"
   }
 }
