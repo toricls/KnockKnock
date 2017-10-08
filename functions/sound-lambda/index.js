@@ -1,5 +1,6 @@
 const ENV = process.env.ENV;
 
-exports.handler = (event, context, callback) => {
+module.exports = (event, context, callback) => {
+  console.log(event);
   return context.fail('Login Failed.');
 };
