@@ -23,7 +23,7 @@ with picamera.PiCamera() as camera:
     # Now creates an OpenCV image
     image = cv2.imdecode(buff, 1)
 
-    cv2.imwrite('./results/face.jpg', image)
+    cv2.imwrite('/tmp/face.jpg', image)
 
     # Get a S3 upload url
     data = {
@@ -33,5 +33,5 @@ with picamera.PiCamera() as camera:
     resp = requests.post(endpoint, json=data)
     print(resp.json()['uploadURL'])
 
-    resp = requests.put(resp.json()['uploadURL'], data=open('./results/face.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
+    resp = requests.put(resp.json()['uploadURL'], data=open('/tmp/face.jpg', 'rb').read(), headers={'Content-type': 'image/jpeg'})
     print resp
